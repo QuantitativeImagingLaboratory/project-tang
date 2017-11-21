@@ -1,0 +1,1 @@
+Goals: create a program that takes an image and operates a geometric transformation chosen by the user.
