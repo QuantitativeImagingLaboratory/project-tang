@@ -14,13 +14,9 @@ class Scaling:
            Parameters include the image, the x and y factors
            by which the image will be scaled, and the
            interpolation type."""
-        (h, w) = self.__image.shape
-        newHeight = h * yScale
-        newWidth = w * xScale
-        I = np.zeros((int(newHeight), int(newWidth), 1), np.uint8)
 
         if interpolation == "nearest_neighbor":
-            self.__interpolation.NearestNeighbor(I)
+            self.__interpolation.NearestNeighbor(xScale, yScale)
         elif interpolation == "bilinear":
             self.__interpolation.Bilinear()
         elif interpolation == "cubic":

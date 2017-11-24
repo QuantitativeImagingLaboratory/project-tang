@@ -1,3 +1,4 @@
+import numpy as np
 class Interpolation:
     __image = None
 
@@ -6,10 +7,14 @@ class Interpolation:
 
         self.__image = image
 
-    def NearestNeighbor(self, newImage):
+    def NearestNeighbor(self, xScale, yScale):
         """Call to perform nearest neighbor interpolation on an image.
            No parameters are required."""
-        (h,w) = self.__image.shape
+        (h, w) = self.__image.shape
+        newHeight = h * yScale
+        newWidth = w * xScale
+        newImage = np.zeros((int(newHeight), int(newWidth), 1), np.uint8)
+
         heightRatio = h / newImage.shape[0]
         widthRatio = w / newImage.shape[1]
 
@@ -19,9 +24,9 @@ class Interpolation:
                 mappedX = round(widthRatio * j, None)
 
                 if (mappedY == h):
-                    hNN = h - 1
+                    mappedY = h - 1
                 if (mappedX == w):
-                    wNN = w - 1
+                    mappedX = w - 1
 
                 newImage[i,j] = self.__image[mappedY, mappedX]
 
