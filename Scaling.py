@@ -21,8 +21,6 @@ class Scaling:
 
         if interpolation == "nearest_neighbor":
             self.__interpolation.NearestNeighbor(I)
-        elif interpolation == "linear":
-            self.__interpolation.Linear()
         elif interpolation == "bilinear":
             self.__interpolation.Bilinear()
         elif interpolation == "cubic":
