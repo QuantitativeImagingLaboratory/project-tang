@@ -12,12 +12,8 @@ class Interpolation:
         self.image = image
 
     def NearestNeighbor(self, xScale, yScale):
-        """Call to perform nearest neighbor interpolation on an image.
-           No parameters are required."""
-        print("At nn")
+        """Call to perform nearest neighbor interpolation on an image."""
         (h, w) = self.image.shape
-        print("Height: ",h)
-        print("width: ", w)
         newHeight = h * yScale
         newWidth = w * xScale
         newImage = np.zeros((int(newHeight), int(newWidth)), np.uint8)
@@ -34,7 +30,7 @@ class Interpolation:
                     mappedY = h - 1
                 if (mappedX == w):
                     mappedX = w - 1
-                print("i: ", i, "  j: ",j, "   Mapped i: ", mappedY, "  Mapped j:", mappedX)
+                #print("i: ", i, "  j: ",j, "   Mapped i: ", mappedY, "  Mapped j:", mappedX)
                 newImage[i,j] = self.image[mappedY, mappedX]
 
         print("finished nn")
@@ -44,9 +40,10 @@ class Interpolation:
         #myvar = Label(self, image=tkimage)
         # myvar.image = tkimage
         # myvar.place(x=700, y=60)
-        cv2.namedWindow("window_name")
-        cv2.imshow("window_name", newImage)
-        cv2.waitKey(0)
+        # cv2.namedWindow("window_name")
+        # cv2.imshow("window_name", newImage)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows();
 
         return newImage
 
@@ -133,12 +130,12 @@ class Interpolation:
 
                     newImage[i, j] = self.bilinear_interpolation(pt1, pt2, pt3, pt4, unknown)
 
-        output_image_name = "image_name" + "Bilinear" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
-        cv2.imwrite(output_image_name, newImage)
-
-        cv2.namedWindow("window_name")
-        cv2.imshow("window_name", newImage)
-        cv2.waitKey(0)
+        # output_image_name = "image_name" + "Bilinear" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
+        # cv2.imwrite(output_image_name, newImage)
+        #
+        # cv2.namedWindow("window_name")
+        # cv2.imshow("window_name", newImage)
+        # cv2.waitKey(0)
 
         return newImage
 
@@ -295,12 +292,12 @@ class Interpolation:
 
                     newImage[i, j] = self.bi_cubic(pt1,pt2,pt3,pt4,pt5,pt6,pt7,pt8,pt9, pt10, pt11, pt12, pt13, pt14, pt15, pt16, unknown,y1,y4)
 
-        output_image_name = "image_name" + "Cubic" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
-        cv2.imwrite(output_image_name, newImage)
-
-        cv2.namedWindow("window_name")
-        cv2.imshow("window_name", newImage)
-        cv2.waitKey(0)
+        # output_image_name = "image_name" + "Cubic" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
+        # cv2.imwrite(output_image_name, newImage)
+        #
+        # cv2.namedWindow("window_name")
+        # cv2.imshow("window_name", newImage)
+        # cv2.waitKey(0)
 
         return newImage
 
