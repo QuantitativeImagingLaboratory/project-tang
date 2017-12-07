@@ -24,6 +24,6 @@ class Scaling:
         elif interpolation == "cubic":
             self.__interpolation.Cubic(xScale, yScale)
         elif interpolation == "lanczos":
-            self.__interpolation.Lanczos()
+            self.__interpolation.Lanczos(xScale, yScale)
         else:
             print("An invalid interpolation type was given")

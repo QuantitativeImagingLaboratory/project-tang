@@ -160,6 +160,7 @@ class Interpolation:
         a4 = I2
 
         i = a1*mu*mu2+a2*mu2+a3*mu+a4
+
         if i > 255:
             i = 255
         if i < 0:
@@ -292,14 +293,61 @@ class Interpolation:
 
                     newImage[i, j] = self.bi_cubic(pt1,pt2,pt3,pt4,pt5,pt6,pt7,pt8,pt9, pt10, pt11, pt12, pt13, pt14, pt15, pt16, unknown,y1,y4)
 
-        # output_image_name = "image_name" + "Cubic" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
-        # cv2.imwrite(output_image_name, newImage)
-        #
-        # cv2.namedWindow("window_name")
-        # cv2.imshow("window_name", newImage)
-        # cv2.waitKey(0)
+        output_image_name = "image_name" + "Cubic" + datetime.now().strftime("%m%d-%H%M%S") + ".jpg"
+        cv2.imwrite(output_image_name, newImage)
+
+        cv2.namedWindow("window_name")
+        cv2.imshow("window_name", newImage)
+        cv2.waitKey(0)
 
         return newImage
 
-    def Lanczos(self):
+    def bi_lanczos(self, points, unknown):
+        """"""
+
+        horizPoints = []
+        for i in points:
+            horizPoints.append((i[1], i[2]))
+        print(horizPoints)
+
+        return 0
+
+    def Lanczos(self, xScale, yScale):
         """Call to perform Lanczos4 interpolation."""
+        import math
+
+        (h, w) = self.image.shape
+
+        newHeight = h * float(yScale)
+        newWidth = w * float(xScale)
+
+        hRatio = h / (newHeight + 1)
+        wRatio = w / (newWidth + 1)
+
+        newImage = np.zeros((int(newHeight), int(newWidth), 1), np.uint8)
+
+        for i in range(int(newHeight)):
+            for j in range(int(newWidth)):
+                """"""
+                x1 = math.floor(wRatio * j)
+                x2 = math.ceil(wRatio * j)
+
+                y1 = math.floor(hRatio * i)
+                y2 = math.ceil(hRatio * i)
+
+                xValues = [x1-3, x1-2, x1-1, x1, x2, x2+1, x2+2, x2+3]
+                yValues = [y1-3, y1-2, y1-1, y1, y2, y2+1, y2+2, y2+3]
+
+                points = set()
+
+                for k in range(8):
+                    for l in range(8):
+                        if(xValues[k] >= 0 and yValues[l] >= 0 and xValues[k] < w and yValues[l] < h):
+                            points.add((yValues[l], xValues[k], self.image[(yValues[l], xValues[k])]))
+
+                #print(points)
+                unknown = (i,j,0)
+
+                newImage = self.bi_lanczos(points, unknown)
+
+
