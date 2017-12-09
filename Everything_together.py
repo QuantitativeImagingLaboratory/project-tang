@@ -102,7 +102,7 @@ class Window(Frame):
         cubicentryx.place(x=175, y=500)
         cubicentryy = Entry(self, textvariable=yscaleC, width=5)
         cubicentryy.place(x=250, y=500)
-        lanczos = Button(self,text = "Lanczos",bg="linen",command=lambda: self.Lanczos(xscaleL,xscaleL))
+        lanczos = Button(self,text = "Lanczos",bg="linen",command=lambda: self.Lanczos(xscaleL,yscaleL))
         lanczos.place(x=0,y=525)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=525)
