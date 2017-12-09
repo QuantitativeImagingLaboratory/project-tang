@@ -348,10 +348,10 @@ class Window(Frame):
 
     def linear_cubic(self, pt1, pt2, pt3, pt4, unknown):
         """helper function for Cubic interpolation"""
-        I1 = (pt1[1])
-        I2 = (pt2[1])
-        I3 = (pt3[1])
-        I4 = (pt4[1])
+        I1 = float(pt1[1])
+        I2 = float(pt2[1])
+        I3 = float(pt3[1])
+        I4 = float(pt4[1])
 
         x2 = pt2[0]
         x3 = pt3[0]
@@ -368,11 +368,11 @@ class Window(Frame):
 
         i = a1*mu*mu2+a2*mu2+a3*mu+a4
         #print(i)
-        if i.any()>255:
+        if i>255:
 
 
             i = 255
-        if i.any()<0:
+        if i<0:
 
             i = 0
 
@@ -429,7 +429,8 @@ class Window(Frame):
         """Call to perform cubic interpolation."""
         xScaleC = float(xScaleC.get())
         yScaleC = float(yScaleC.get())
-        data = np.array(self.im, dtype= np.uint8)
+        img = self.im.convert("L")
+        data = np.array(img, dtype= np.uint8)
 
         (w, h) = self.im.size  # THIS MAY NEED TO BE W,H SINCE USING .SIZE
 
@@ -439,7 +440,7 @@ class Window(Frame):
         hRatio = h / (newHeight + 1)
         wRatio = w / (newWidth + 1)
 
-        newImage = np.zeros((int(newHeight), int(newWidth), 3),dtype=  np.uint8)
+        newImage = np.zeros((int(newHeight), int(newWidth), 3),dtype= np.uint8)
 
 
         for i in range(newImage.shape[0]):
@@ -468,7 +469,7 @@ class Window(Frame):
                     y4 = h-1
 
                 if x2 == x3 and y2 == y3:
-                    newImage[i,j] = data[i,j]
+                    newImage[i,j] = data[y2,x2]
                 elif y2 == y3:
                     """"""
                     pt1 = (x1, data[y2,x1])

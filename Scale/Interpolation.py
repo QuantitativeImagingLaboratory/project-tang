@@ -249,7 +249,7 @@ class Interpolation:
                     y4 = h-1
 
                 if x2 == x3 and y2 == y3:
-                    newImage[i,j] = self.image[i,j]
+                    newImage[i,j] = self.image[y2,x2]
                 elif y2 == y3:
                     """"""
                     pt1 = (x1, self.image[y2,x1])
@@ -302,15 +302,54 @@ class Interpolation:
 
         return newImage
 
+    def lanczos_window(self, x):
+        if x >0 :
+            part1 = np.sin(np.pi * x) / (np.pi * x)
+            part2 = np.sin(np.pi * x / 4) / (np.pi * x / 4)
+
+            return part1 * part2
+        else:
+            return 0
+
+    def linear_lanczos(self, points, unknown):
+        I = 0
+        for i in points:
+            I += self.lanczos_window(np.abs(unknown[0] - i[0])) * i[1]
+
+        if I > 255:
+            I = 255
+        if I < 0:
+            I = 0
+
+        return (unknown[0], I)
+
+
     def bi_lanczos(self, points, unknown):
         """"""
 
-        horizPoints = []
+        horizPoints = {}
+        uniqueY = set()
         for i in points:
-            horizPoints.append((i[1], i[2]))
-        print(horizPoints)
+            uniqueY.add(i[0])
 
-        return 0
+        for i in uniqueY:
+            temp = []
+            for j in points:
+
+                if j[0] == i:
+                    temp.append((j[1], j[2]))
+            if len(temp) > 0:
+                horizPoints[i] = temp
+
+        intermPoints = []
+
+        for key, value in horizPoints.items():
+            tempPoint = self.linear_lanczos(value, (unknown[1], unknown[2]))
+            intermPoints.append((key, tempPoint[1]))
+
+        p = self.linear_lanczos(intermPoints, (unknown[0], unknown[2]))
+
+        return p[1]
 
     def Lanczos(self, xScale, yScale):
         """Call to perform Lanczos4 interpolation."""
@@ -328,26 +367,45 @@ class Interpolation:
 
         for i in range(int(newHeight)):
             for j in range(int(newWidth)):
-                """"""
                 x1 = math.floor(wRatio * j)
                 x2 = math.ceil(wRatio * j)
 
                 y1 = math.floor(hRatio * i)
                 y2 = math.ceil(hRatio * i)
 
-                xValues = [x1-3, x1-2, x1-1, x1, x2, x2+1, x2+2, x2+3]
-                yValues = [y1-3, y1-2, y1-1, y1, y2, y2+1, y2+2, y2+3]
-
                 points = set()
+                xValues = []
+                yValues = []
 
-                for k in range(8):
-                    for l in range(8):
-                        if(xValues[k] >= 0 and yValues[l] >= 0 and xValues[k] < w and yValues[l] < h):
-                            points.add((yValues[l], xValues[k], self.image[(yValues[l], xValues[k])]))
+                if x1 == x2 and y1 == y2:
+                    newImage[i,j] = self.image[y1, x1]
+                elif y1 == y2:
+                    xValues = [x1 - 3, x1 - 2, x1 - 1, x1, x2, x2 + 1, x2 + 2, x2 + 3]
+                    for k in range(8):
+                        if xValues[k] >=0 and xValues[k] < w:
+                            points.add((xValues[k], self.image[y1, xValues[k]]))
+                    newImage[i,j] = self.linear_lanczos(points, (wRatio*j,0))[1]
+                elif x1 == x2:
+                    yValues = [y1-3, y1-2, y1-1, y1, y2, y2+1, y2+2, y2+3]
+                    for k in range(8):
+                        if yValues[k] >=0 and yValues[k] < h:
+                            points.add((yValues[k], self.image[y1, yValues[k]]))
+                    unknown = (hRatio*i, 0)
+                    newImage[i,j] = self.linear_lanczos(points, unknown)[1]
+                else:
 
-                #print(points)
-                unknown = (i,j,0)
+                    xValues = [x1-3, x1-2, x1-1, x1, x2, x2+1, x2+2, x2+3]
+                    yValues = [y1-3, y1-2, y1-1, y1, y2, y2+1, y2+2, y2+3]
+                    for k in range(8):
+                        for l in range(8):
+                            if(xValues[k] >= 0 and yValues[l] >= 0 and xValues[k] < w and yValues[l] < h):
+                                points.add((yValues[l], xValues[k], self.image[(yValues[l], xValues[k])]))
 
-                newImage = self.bi_lanczos(points, unknown)
+                    unknown = (i*hRatio, j*wRatio, 0)
+                    newImage[i, j] = self.bi_lanczos(points, unknown)
+        # cv2.namedWindow("window_name")
+        # cv2.imshow("window_name", newImage)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows();
 
-
+        return newImage
