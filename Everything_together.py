@@ -42,20 +42,27 @@ class Window(Frame):
         # allowing the widget to take the full space of the root window
         self.pack(fill=BOTH, expand="true")
         # path = filedialog.askopenfilename(filetypes=[("Image File", '.jpg')])
-
+        top = Frame(master=None, width=1100, height=54, bg="LightBlue1", relief=SUNKEN)
+        top.place(x=102, y=0)
+        down = Frame(master=None, width=1400, height=54, bg="LightBlue1", relief=SUNKEN)
+        down.place(x=0, y=605)
+        labelinfo = Label(top, font=('arial', 20, 'bold'), text="Image Geometric Transformation", fg="green", bd=10,
+                          anchor='w')
+        labelinfo.place(x=300, y=0)
         # creating a button instance
-        uploadButton = Button(self, text="Select an image", command=self.client_upload)
+        uploadButton = Button(self, text="Select an image", height=3, width=13, bg="dark green", fg="white",
+                              font=('arial', 9, 'bold'), command=self.client_upload)
 
         # placing the button on my window
         uploadButton.place(x=0, y=0)
 
-        rotate = Button(self, text="Rotate image", command=lambda: self.rotateImage(mydegree))
+        rotate = Button(self, text="Rotate image",bg= "powder blue", command=lambda: self.rotateImage(mydegree))
         rotate.place(x=0, y=400)
         labelrotatedeg = Label(self, text="Degree° = ")
         labelrotatedeg.place(x=115, y=400)
         rotatedegree = Entry(self, textvariable=mydegree, width=5)
         rotatedegree.place(x=175, y=400)
-        Translateimage = Button(self, text="Translate Image", command=lambda: self.translateImage(myx, myy))
+        Translateimage = Button(self, text="Translate Image",bg="linen", command=lambda: self.translateImage(myx, myy))
         Translateimage.place(x=0, y=425)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=425)
@@ -65,7 +72,7 @@ class Window(Frame):
         transentryx.place(x=175, y=425)
         transentryy = Entry(self, textvariable=myy, width=5)
         transentryy.place(x=250, y=425)
-        NearestNeighbor = Button(self,text = "Nearest Neighbor",command = lambda:self.NearestNeighbor(xscale,yscale))
+        NearestNeighbor = Button(self,text = "Nearest Neighbor",bg="powder blue",command = lambda:self.NearestNeighbor(xscale,yscale))
         NearestNeighbor.place(x=0,y=450)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=450)
@@ -75,7 +82,7 @@ class Window(Frame):
         nearestentryx.place(x=175, y=450)
         nearestentryy = Entry(self, textvariable=yscale, width=5)
         nearestentryy.place(x=250, y=450)
-        Bilinear = Button(self,text="Bilinear",command= lambda:self.Bilinear(xscaleB,yscaleB))
+        Bilinear = Button(self,text="Bilinear",bg="linen",command= lambda:self.Bilinear(xscaleB,yscaleB))
         Bilinear.place(x=0,y=475)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=475)
@@ -85,7 +92,7 @@ class Window(Frame):
         bilinearentryx.place(x=175, y=475)
         bilinearentryy = Entry(self, textvariable=yscaleB, width=5)
         bilinearentryy.place(x=250, y=475)
-        cubic= Button(self,text= "Cubic",command=lambda:self.Cubic(xscaleC,yscaleC))
+        cubic= Button(self,text= "Cubic",bg="powder blue",command=lambda:self.Cubic(xscaleC,yscaleC))
         cubic.place(x=0,y=500)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=500)
@@ -95,7 +102,7 @@ class Window(Frame):
         cubicentryx.place(x=175, y=500)
         cubicentryy = Entry(self, textvariable=yscaleC, width=5)
         cubicentryy.place(x=250, y=500)
-        lanczos = Button(self,text = "Lanczos",command=lambda: self.Lanczos(xscaleL,xscaleL))
+        lanczos = Button(self,text = "Lanczos",bg="linen",command=lambda: self.Lanczos(xscaleL,xscaleL))
         lanczos.place(x=0,y=525)
         labelentryx = Label(self, text="x=")
         labelentryx.place(x=150, y=525)
@@ -105,7 +112,7 @@ class Window(Frame):
         lanczosentryx.place(x=175, y=525)
         lanczosentryy = Entry(self, textvariable=yscaleL, width=5)
         lanczosentryy.place(x=250, y=525)
-        horizontalshearing = Button(self,text= "Horizontal Shearing",command = lambda:self.horizontal(coefh,directionh))
+        horizontalshearing = Button(self,text= "Horizontal Shearing",bg="powder blue",command = lambda:self.horizontal(coefh,directionh))
         horizontalshearing.place(x=0,y=550)
         labelentrycoef = Label(self, text="coef")
         labelentrycoef.place(x=150, y=550)
@@ -115,7 +122,7 @@ class Window(Frame):
         shearingcentrycoef.place(x=180, y=550)
         shearingdirection = Entry(self, textvariable=directionh, width=8)
         shearingdirection.place(x=350, y=550)
-        verticalshearing= Button(self,text="Vertical Shearing",command = lambda:self.vertical(coefv,directionv))
+        verticalshearing= Button(self,text="Vertical Shearing",bg="linen",command = lambda:self.vertical(coefv,directionv))
         verticalshearing.place(x=0,y=575)
         labelentrycoefv = Label(self, text="coef")
         labelentrycoefv.place(x=150, y=580)
@@ -125,6 +132,8 @@ class Window(Frame):
         shearingcentrycoefv.place(x=180, y=580)
         shearingdirectionv = Entry(self, textvariable=directionv, width=8)
         shearingdirectionv.place(x=350, y=580)
+        quit = Button(self, text="QUIT", height=3, width=9, bg="dark green", fg="white", command=self.quit)
+        quit.place(x=1200, y=0)
 
         #quit = Button (self,text = "QUIT",command = self.quit)
         #quit.place(x=1200,y=0)
@@ -140,6 +149,12 @@ class Window(Frame):
         #result = messagebox.askyes("Continue?", "Do you wish to close this window :( ?")
 
         #exit()
+    def quit(self):
+        result = messagebox.askyesno("Continue?", "Do you wish to close this window :( ?" )
+        if result is True:
+         exit()
+        else:
+            pass
 
     def client_upload(self):
         path = filedialog.askopenfilename(filetypes=[("Image File", '.jpg')])
@@ -430,6 +445,7 @@ class Window(Frame):
         xScaleC = float(xScaleC.get())
         yScaleC = float(yScaleC.get())
         img = self.im.convert("L")
+
         data = np.array(img, dtype= np.uint8)
 
         (w, h) = self.im.size  # THIS MAY NEED TO BE W,H SINCE USING .SIZE
@@ -681,6 +697,118 @@ class Window(Frame):
         # cv2.destroyAllWindows();
 
         return newImage
+
+    def lanczos_window(self, x):
+        if x > 0:
+            part1 = np.sin(np.pi * x) / (np.pi * x)
+            part2 = np.sin(np.pi * x / 4) / (np.pi * x / 4)
+
+            return part1 * part2
+        else:
+            return 0
+
+    def linear_lanczos(self, points, unknown):
+        I = 0
+        for i in points:
+            I += self.lanczos_window(np.abs(unknown[0] - i[0])) * i[1]
+
+        if I > 255:
+            I = 255
+        if I < 0:
+            I = 0
+
+        return (unknown[0], I)
+
+    def bi_lanczos(self, points, unknown):
+        """"""
+
+        horizPoints = {}
+        uniqueY = set()
+        for i in points:
+            uniqueY.add(i[0])
+
+        for i in uniqueY:
+            temp = []
+            for j in points:
+
+                if j[0] == i:
+                    temp.append((j[1], j[2]))
+            if len(temp) > 0:
+                horizPoints[i] = temp
+
+        intermPoints = []
+
+        for key, value in horizPoints.items():
+            tempPoint = self.linear_lanczos(value, (unknown[1], unknown[2]))
+            intermPoints.append((key, tempPoint[1]))
+
+        p = self.linear_lanczos(intermPoints, (unknown[0], unknown[2]))
+
+        return p[1]
+
+    def Lanczos(self, xScaleL, yScaleL):
+        """Call to perform Lanczos4 interpolation."""
+        #import math
+        xScaleL = float(xScaleL.get())
+        yScaleL = float(yScaleL.get())
+
+        (w, h) = self.im.size
+        img = self.im.convert("L")
+
+        data = np.array(img, dtype=np.uint8)
+
+        newHeight = h * float(yScaleL)
+        newWidth = w * float(xScaleL)
+
+        hRatio = h / (newHeight + 1)
+        wRatio = w / (newWidth + 1)
+
+        newImage = np.zeros((int(newHeight), int(newWidth), 3), dtype=np.uint8)
+
+        for i in range(int(newHeight)):
+            for j in range(int(newWidth)):
+                x1 = math.floor(wRatio * j)
+                x2 = math.ceil(wRatio * j)
+
+                y1 = math.floor(hRatio * i)
+                y2 = math.ceil(hRatio * i)
+
+                points = set()
+                xValues = []
+                yValues = []
+
+                if x1 == x2 and y1 == y2:
+                    newImage[i, j] = data[y1, x1]
+                elif y1 == y2:
+                    xValues = [x1 - 3, x1 - 2, x1 - 1, x1, x2, x2 + 1, x2 + 2, x2 + 3]
+                    for k in range(8):
+                        if xValues[k] >= 0 and xValues[k] < w:
+                            points.add((xValues[k], data[y1, xValues[k]]))
+                    newImage[i, j] = self.linear_lanczos(points, (wRatio * j, 0))[1]
+                elif x1 == x2:
+                    yValues = [y1 - 3, y1 - 2, y1 - 1, y1, y2, y2 + 1, y2 + 2, y2 + 3]
+                    for k in range(8):
+                        if yValues[k] >= 0 and yValues[k] < h:
+                            points.add((yValues[k], data[y1, yValues[k]]))
+                    unknown = (hRatio * i, 0)
+                    newImage[i, j] = self.linear_lanczos(points, unknown)[1]
+                else:
+
+                    xValues = [x1 - 3, x1 - 2, x1 - 1, x1, x2, x2 + 1, x2 + 2, x2 + 3]
+                    yValues = [y1 - 3, y1 - 2, y1 - 1, y1, y2, y2 + 1, y2 + 2, y2 + 3]
+                    for k in range(8):
+                        for l in range(8):
+                            if (xValues[k] >= 0 and yValues[l] >= 0 and xValues[k] < w and yValues[l] < h):
+                                points.add((yValues[l], xValues[k], data[(yValues[l], xValues[k])]))
+
+                    unknown = (i * hRatio, j * wRatio, 0)
+                    newImage[i, j] = self.bi_lanczos(points, unknown)
+        # cv2.namedWindow("window_name")
+        # cv2.imshow("window_name", newImage)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows();
+        self.im_converter(newImage)
+        #return newImage
 
 
 
